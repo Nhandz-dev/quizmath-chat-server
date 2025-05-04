@@ -20,3 +20,7 @@ async def websocket_endpoint(ws: WebSocket):
 @app.get("/")
 def root():
     return {"message": "QuizMath Chat Server is running!"}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=10000)
+
