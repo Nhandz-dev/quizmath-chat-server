@@ -1,10 +1,22 @@
-from flask import Flask
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from typing import List
 
-app = Flask(__name__)
+app = FastAPI()
+clients: List[WebSocket] = []
 
-@app.route('/')
-def home():
-    return "Quizmath Chat server is running!"
+@app.websocket("/ws")
+async def websocket_endpoint(ws: WebSocket):
+    await ws.accept()
+    clients.append(ws)
+    try:
+        while True:
+            data = await ws.receive_text()
+            for client in clients:
+                if client != ws:
+                    await client.send_text(data)
+    except WebSocketDisconnect:
+        clients.remove(ws)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+@app.get("/")
+def root():
+    return {"message": "QuizMath Chat Server is running!"}
