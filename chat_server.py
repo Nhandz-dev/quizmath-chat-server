@@ -4,10 +4,10 @@ import uvicorn
 
 app = FastAPI()
 
+# CORS cho phép mọi client
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
