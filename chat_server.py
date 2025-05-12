@@ -4,7 +4,7 @@ import uvicorn
 
 app = FastAPI()
 
-# CORS cho phép mọi client
+# Cho phép mọi nguồn (cần cho frontend customtkinter)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
